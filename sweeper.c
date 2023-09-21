@@ -3,8 +3,8 @@
 #include <time.h>
 
 // todo implement config file
-int SIZE = 10;
-int MINES = 20;
+int SIZE = 16;
+int MINES = 40;
 const int DIRS[8][2] = {{1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}};
 const int CDIRS[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
@@ -73,7 +73,7 @@ space** createBoard(int size, int mines, space **mine_locations) {
 void printBoard(space **board, int dim) {
     printf("\n");
     for (int i = dim-1; i >= 0; --i) {
-        printf("%d [", i);
+        printf("%2d [", i);
         for (int j = 0; j < dim; ++j) {
             // fprintf(stderr, "iterating (%d, %d)\n", i, j);
             switch(board[i][j].state) {
@@ -96,9 +96,9 @@ void printBoard(space **board, int dim) {
         printf("]\n");
     }
 
-    printf("   ");
+    printf("    ");
     for (int i = 0; i < dim; ++i) {
-        printf(" %d ", i);
+        printf("%2d ", i);
     }
 
     printf("\n");
@@ -116,6 +116,7 @@ char isValid(space **locations, int mines) {
 
 // for opening zeroes on flip
 void open(space **board, int dim, int x, int y) {
+    board[x][y].state = 1;
     for (int i = 0; i < 8; ++i) {
         if (validCoordinate(dim, x + DIRS[i][0], y + DIRS[i][1]) &&
                 board[x + DIRS[i][0]][y + DIRS[i][1]].state == 0) {
